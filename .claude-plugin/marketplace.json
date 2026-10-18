@@ -9,7 +9,7 @@
     {
       "name": "fintech-software-engineer",
       "source": "./plugins/fintech-software-engineer",
-      "description": "SWEBOK-based workflow (spec, design, test-first build, debug, independent review, ship) with fintech rules for ledgers, payments, lending, investments, digital assets and compliance.",
+      "description": "SWEBOK-based workflow (ideate, wireframe, spec, architect, design, tickets, test-first build, debug, independent review, ship) with fintech rules for ledgers, payments, lending, investments, digital assets, compliance and the data layer.",
       "category": "development"
     }
   ]

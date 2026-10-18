@@ -8,10 +8,10 @@ This repository is a Claude Code plugin marketplace. Its plugin,
 fintech software: ledgers, payments, lending, brokerage and investment
 platforms, digital assets, compliance tooling and financial analytics.
 
-- **How it works:** a software-engineering workflow (spec → design →
-  test-first build → independent review → ship) based on the IEEE Computer
-  Society's *Guide to the Software Engineering Body of Knowledge*
-  (SWEBOK v4.0a).
+- **How it works:** a workflow from idea to release (ideate → wireframe →
+  spec → architect → design → tickets → test-first build → independent
+  review → ship) based on the IEEE Computer Society's *Guide to the Software
+  Engineering Body of Knowledge* (SWEBOK v4.0a).
 - **What it knows:** fintech rules for money, APIs, events, providers, audit
   and operations on every task, plus one-page rules for each financial domain,
   loaded only when the work touches that domain.
@@ -78,6 +78,10 @@ Then try:
 
 | You type | What happens |
 |---|---|
+| `/fintech-software-engineer:ideate split payments for freelancers` | Office-hours questions one at a time, then a brief with the riskiest assumptions and a user-interview script |
+| `/fintech-software-engineer:wireframe docs/ideas/split-payments.md html` | Journeys, a screen inventory and clickable HTML wireframes with fee, confirm and failure states |
+| `/fintech-software-engineer:architect` | In an empty repo: stack, data layer and deployment ADRs, then a walking skeleton with CI green |
+| `/fintech-software-engineer:tickets docs/specs/payouts.md` | Vertical-slice tickets in `docs/tickets/`, optionally pushed to Multica |
 | `Add a transfer fee calculator` | `principles` and `build` load: a failing test first, decimal money, input contracts, full checks |
 | `/fintech-software-engineer:spec recurring payments` | Clarifying questions on schedules, failures, consent and duplicates, then a spec with numbered acceptance criteria |
 | `Customers are being credited twice` | `debug`: a reproducible failing check, root cause, regression test, data repaired with correcting entries |
@@ -99,21 +103,21 @@ written down.
 
 | # | Knowledge area | What the agent does | Where |
 |---|---|---|---|
-| 1 | Requirements | User stories, numbered acceptance criteria, money flows, non-functional needs, traceability to tests | `spec` |
-| 2 | Architecture | Records significant decisions with the concerns and options behind them | `design` |
+| 1 | Requirements | Elicitation and prototyping; user stories, numbered acceptance criteria, money flows, non-functional needs, traceability to tests | `ideate`, `wireframe`, `spec` |
+| 2 | Architecture | Chooses the stack and data layer for new systems; records significant decisions with the concerns and options behind them | `architect`, `design` |
 | 3 | Design | Design principles, deep modules at clean seams, failure modes, design rationale | `design` |
 | 4 | Construction | Simple, readable code; contracts at boundaries; explicit error handling; test-first | `build` |
 | 5 | Testing | Tests at agreed seams, independent expected values, property, idempotency and invariant tests | `build`, `review` |
 | 6 | Operations | Deployment, migrations, kill switches, runbooks, rollback, monitoring | `ship`, `debug` |
 | 7 | Maintenance | Program comprehension and impact analysis before change; root-cause fixes | `debug`, `build` |
 | 8 | Configuration Management | Version control, locked dependencies, reproducible builds, change trail | `ship`, `principles` |
-| 9 | Engineering Management | Scope, risks, regulators and owners, out-of-scope list | `spec` |
+| 9 | Engineering Management | Scope, risks, regulators and owners, out-of-scope list; work breakdown into tickets | `spec`, `tickets` |
 | 10 | Process | The workflow itself | all skills |
 | 11 | Models and Methods | State machines, sequence diagrams, domain glossary | `design` |
 | 12 | Quality | Reviews, quality attributes, evidence of done | `review` |
 | 13 | Security | Threat modelling (STRIDE), input validation, least privilege, secrets, dependency scanning | `design`, `review` |
 | 14 | Professional Practice | Honest status, evidence, asking before touching real money or production | `principles` |
-| 15 | Economics | Options compared on effort, risk and cost to reverse | `design` |
+| 15 | Economics | Whether to build at all; options compared on effort, risk and cost to reverse | `ideate`, `architect`, `design` |
 | 16 | Computing Foundations | Already known to the model | — |
 | 17 | Mathematical Foundations | Decimal arithmetic, rounding, precision, interest conventions | `fintech-rules.md`, `lending` |
 | 18 | Engineering Foundations | Measurement and root-cause analysis | `debug`, `review` |
@@ -177,8 +181,14 @@ The core rules (`references/fintech-rules.md`) apply to every task:
 
 ```mermaid
 flowchart LR
-    spec["spec<br/>criteria + money flows"] --> design["design<br/>ADR · failure modes · threats"]
-    design --> build["build<br/>red, then green"]
+    ideate["ideate<br/>brief · assumptions"] --> wireframe["wireframe<br/>screens · states"]
+    wireframe -- "show users" --> ideate
+    wireframe --> spec["spec<br/>criteria + money flows"]
+    spec --> architect["architect<br/>new repos only"]
+    architect --> design
+    spec --> design["design<br/>ADR · failure modes · threats"]
+    design --> tickets["tickets<br/>slices · Multica"]
+    tickets --> build["build<br/>red, then green"]
     build --> review["review<br/>spec · standards · fintech risk"]
     review -- "blocking finding" --> build
     review --> ship["ship<br/>kill switch · runbook · rollback"]
@@ -189,12 +199,19 @@ flowchart LR
 Small changes go straight to `build` and `review` with a one-line acceptance
 criterion. `spec` and `design` are for new features and changes that cross
 modules, the data model, a public API, a money flow or an external provider.
+`ideate` and `wireframe` come before a spec when the idea itself is still
+open; `architect` runs once, when there is no code yet; `tickets` splits an
+approved spec into work for people or agents.
 
 | Skill | Use when | Done when |
 |---|---|---|
 | `principles` | Any coding task (loads automatically) | — |
+| `/fintech-software-engineer:ideate` | An idea, or deciding what to build | Brief in `docs/ideas/` with the riskiest assumptions, a test for each, an interview script and a chosen next step |
+| `/fintech-software-engineer:wireframe` | Seeing the idea, or preparing to show users | Every journey clickable end to end in HTML or Figma, failure states drawn, screen ids in `screens.md` |
 | `/fintech-software-engineer:spec` | New feature or vague request | Approved spec in `docs/specs/` with money flows and numbered, testable criteria |
+| `/fintech-software-engineer:architect` | Empty repo or new service | Stack, data-layer and deployment ADRs accepted; walking skeleton green in CI |
 | `/fintech-software-engineer:design` | Change crosses modules, data model, API, money flow or provider | Options chosen, failure modes and threats listed, ADR written, test seams agreed |
+| `/fintech-software-engineer:tickets` | Spec approved, work to hand out | Every criterion in exactly one ticket, dependencies ordered, money-risk flagged; optionally pushed to Multica |
 | `/fintech-software-engineer:build` | Writing or changing code | Every criterion has a test that went red then green; invariants tested; full checks shown passing |
 | `/fintech-software-engineer:debug` | Bug, wrong amount, double charge, flaky test, incident | Root cause stated; regression test red then green; bad data corrected with new entries |
 | `/fintech-software-engineer:review` | Before calling work done | The `code-reviewer` agent reports no blocking findings |
@@ -227,6 +244,31 @@ easy to get wrong in each focus language:
   quantize, frozen `Money` dataclass, timezone-aware datetimes, strict type
   checking, ruff, pytest with Hypothesis, `pip-audit`.
 
+### From idea to tickets
+
+- **`ideate`** is inspired by GStack's office hours and is not fintech-only.
+  It asks one question at a time about demand, how people cope today, the
+  narrowest wedge and the evidence so far, and pushes back on vague answers.
+  A *money and trust* section is added only when the idea holds or moves
+  money. The brief ends with ranked assumptions, the cheapest test for each
+  and a user-interview script; findings go into its evidence log.
+- **`wireframe`** draws low-fidelity screens as one self-contained HTML file
+  or, when the Figma connector is available, as Figma frames. Every screen
+  gets an id that acceptance criteria can cite, and money screens show the
+  currency, fees before confirmation, a confirm step before anything
+  irreversible, and declined or failed states.
+- **`architect`** fills the gap for new projects: the other skills take the
+  stack from the repo, so an empty repo has nothing to follow. It weighs
+  stack options against fintech needs (exact decimals, transactions and an
+  outbox, migrations, static types, provider SDKs, data residency), records
+  ADRs and leaves a walking skeleton with CI.
+- **`tickets`** cuts an approved spec into vertical slices. Each ticket names
+  its spec, criteria, domains, rules and dependencies, so an agent that never
+  saw the conversation can pick it up. With the `multica` CLI installed it
+  can create the issues in [Multica](https://multica.ai), the board where
+  people and coding agents take on work, leaving them unassigned so no agent
+  starts on money-moving work without your go-ahead.
+
 ---
 
 ## Domain packs
@@ -242,6 +284,14 @@ Each pack is one page of rules plus the invariant tests that prove them. The
 | `investments` | Orders, trading, portfolios, market data, valuations | ISIN/CUSIP/FIGI not tickers; fills as events; trade vs settlement date; positions from tax lots; corporate actions applied once; custodian reconciliation; stale prices unavailable |
 | `digital-assets` | Crypto, stablecoins, tokenised assets, wallets | Per-token decimals in big integers; keys outside the app; confirmation vs finality; reconcile against the chain; stablecoin ≠ fiat; contract safety |
 | `compliance` | Identity, KYC/AML, sanctions, permissions, privacy, approvals | Authentication, authorisation and identity proofing separate; screening inline and failing closed; maker-checker and segregation of duties; least privilege; break-glass controls; personal data apart from financial records; tamper-evident audit |
+
+**Data layer** (`references/data-layer.md`) applies across domains and loads
+for schemas, migrations, events, pipelines and analytics: one system of
+record per fact; ledger table, event sourcing or plain rows chosen in an
+ADR; transactional outbox and deduplicating consumers; raw, validated and
+curated pipeline stages with control totals; valid and recorded time;
+expand-then-contract migrations; personal data apart and crypto-shredding
+for erasure; the warehouse never writes back.
 
 Regulation differs by country and licence. Packs state the engineering
 pattern and ask for the applicable rules in the spec; they don't hard-code one
@@ -266,9 +316,12 @@ Created only when there is something to write:
 
 | Path | Created by | Contents |
 |---|---|---|
+| `docs/ideas/<idea>.md` | `ideate` | Problem, status quo, wedge, assumptions with tests, interview script, evidence log |
+| `docs/wireframes/<slug>/` | `wireframe` | `index.html` (or a Figma link) and `screens.md` with screen ids, states and a user test script |
 | `docs/specs/<feature>.md` | `spec` | Problem, stories, acceptance criteria, money flows, non-functional needs, risks |
 | `docs/adr/NNNN-<title>.md` | `design` | Context, options, decision, consequences (append-only) |
-| `GLOSSARY.md` | `design` | Domain terms such as available balance, value date, day-count convention |
+| `docs/tickets/<feature>.md` | `tickets` | Ordered tickets with criteria, domains, dependencies, money-risk and tracker ids |
+| `GLOSSARY.md` | `design`, `architect` | Domain terms such as available balance, value date, day-count convention |
 
 Specs and ADRs are plain Markdown so they can move into an issue tracker
 later without changes.
@@ -301,6 +354,11 @@ claude plugin eval plugins/fintech-software-engineer --scaffold --allow-tools Wr
 | Withdrawal approval endpoint | compliance | C# | approver differs from requester, approval audited |
 | "Add recurring payments" | spec | any | clarifying questions before code |
 | Review with subtle defects | review | Python | retry without idempotency key and float-to-cents both found |
+| Grill me on an idea | ideate | any | one demand question at a time, no brief or code yet |
+| Send-money wireframe | wireframe | HTML | fee, confirm step and failure states drawn |
+| Payouts spec to tickets | tickets | any | all five criteria covered, dependencies listed, money-risk flagged |
+| New savings-pool service | architect | any | constraints or stack options weighed, decimals and transactions as criteria, no code yet |
+| Warehouse syncs live balances | data layer | Python | write-back to the system of record and silently skipped rows both found |
 
 The latest results are recorded in the release notes for each version.
 
@@ -312,23 +370,25 @@ The latest results are recorded in the release notes for each version.
 .claude-plugin/marketplace.json            marketplace definition
 plugins/fintech-software-engineer/
 ├── .claude-plugin/plugin.json             manifest
-├── skills/                                principles, spec, design, build, debug, review, ship
+├── skills/                                principles, ideate, wireframe, spec, architect,
+│                                          design, tickets, build, debug, review, ship
 ├── agents/code-reviewer.md                independent reviewer
 ├── hooks/hooks.json                       money lint
 ├── scripts/money_lint.py
 ├── references/
 │   ├── fintech-rules.md                   core rules, always on
+│   ├── data-layer.md                      stores, events, pipelines, migrations
 │   ├── dotnet.md, python.md               language notes
 │   └── domains/                           ledger, payments, lending, investments,
 │                                          digital-assets, compliance
 ├── tests/                                 money-lint unit tests
-└── evals/                                 eight prompt evaluation cases
+└── evals/                                 thirteen prompt evaluation cases
 ```
 
 ## Design choices
 
-- **Few, short skills.** Seven skills under ~600 words each, not one per
-  knowledge area. Each step ends on a checkable "done when".
+- **Few, short skills.** Eleven skills of about 600 words or fewer each, not
+  one per knowledge area. Each step ends on a checkable "done when".
 - **Rules load on demand.** Core rules always; a domain pack only when the
   work touches that domain, so a payments change never pulls in lending.
 - **The repository is the source of truth** for versions, frameworks and
@@ -344,7 +404,11 @@ plugins/fintech-software-engineer/
   generically named variables and can't see untyped JavaScript.
 - Domain packs are one page each by design. They cover what commonly goes
   wrong, not every rule of every scheme or regulator.
-- Evaluations are small (eight cases); treat them as smoke tests, not proof.
+- Evaluations are small (thirteen cases); treat them as smoke tests, not
+  proof.
+- `tickets` pushes to Multica through its CLI; flags differ between Multica
+  versions, so the skill checks `--help` first. Other trackers need a
+  connector or an import of the exported file.
 - Instructions improve consistency; they don't replace human review of code,
   compliance decisions or releases.
 
@@ -366,6 +430,9 @@ Keep the house style:
 
 MIT licence.
 
+- **The Mom Test** (Rob Fitzpatrick): the past-behaviour interview approach
+  in `ideate`. Cited, not reproduced.
+
 - **SWEBOK Guide v4.0a**, IEEE Computer Society: source of the engineering
   principles. Cited, not reproduced.
 - **Fintech Engineering Handbook** (handbook.fintechengineer.io), after
@@ -376,5 +443,6 @@ MIT licence.
   projects: [obra/superpowers](https://github.com/obra/superpowers),
   [mattpocock/skills](https://github.com/mattpocock/skills),
   [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official),
-  [garrytan/gstack](https://github.com/garrytan/gstack) and
+  [garrytan/gstack](https://github.com/garrytan/gstack) (the office-hours
+  questioning behind `ideate`) and
   [Aaronontheweb/dotnet-skills](https://github.com/Aaronontheweb/dotnet-skills).
