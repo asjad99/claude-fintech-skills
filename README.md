@@ -3,7 +3,7 @@
 **IEEE-grounded software engineering and fintech-grade practices for Claude
 Code, for building any software that handles money.**
 
-This repository is a Claude Code plugin marketplace. Its main plugin,
+This repository is a Claude Code plugin marketplace. Its plugin,
 `fintech-software-engineer`, makes Claude work like a disciplined engineer on
 fintech software: ledgers, payments, lending, brokerage and investment
 platforms, digital assets, compliance tooling and financial analytics.
@@ -34,7 +34,6 @@ It works in any language, with extra notes for .NET and Python.
 - [Guardrails](#guardrails)
 - [Files the plugin creates in your project](#files-the-plugin-creates-in-your-project)
 - [Testing and evaluation](#testing-and-evaluation)
-- [Optional plugin: value-analyst](#optional-plugin-value-analyst)
 - [Repository layout](#repository-layout)
 - [Design choices](#design-choices)
 - [Limitations](#limitations)
@@ -307,22 +306,10 @@ The latest results are recorded in the release notes for each version.
 
 ---
 
-## Optional plugin: value-analyst
-
-[value-analyst](https://github.com/asjad99/value-analyst) is a separate,
-optional plugin in this marketplace: an AI value-investing analyst with a
-hash-chained evidence ledger, Decimal valuation maths, cross-source
-reconciliation, forensic screens and maker-checker review before any verdict.
-It shares this repo's tenets but none of its code.
-
-```
-/plugin install value-analyst@fintech-skills
-```
-
 ## Repository layout
 
 ```
-.claude-plugin/marketplace.json            marketplace: fintech-software-engineer (here) + value-analyst (GitHub)
+.claude-plugin/marketplace.json            marketplace definition
 plugins/fintech-software-engineer/
 ├── .claude-plugin/plugin.json             manifest
 ├── skills/                                principles, spec, design, build, debug, review, ship

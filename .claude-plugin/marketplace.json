@@ -11,15 +11,6 @@
       "source": "./plugins/fintech-software-engineer",
       "description": "SWEBOK-based workflow (spec, design, test-first build, debug, independent review, ship) with fintech rules for ledgers, payments, lending, investments, digital assets and compliance.",
       "category": "development"
-    },
-    {
-      "name": "value-analyst",
-      "source": {
-        "source": "github",
-        "repo": "asjad99/value-analyst"
-      },
-      "description": "Optional: an AI value-investing analyst with a hash-chained evidence ledger, Decimal valuation maths, reconciliation and maker-checker review.",
-      "category": "research"
     }
   ]
 }
