@@ -1,8 +1,8 @@
 {
   "name": "fintech-software-engineer",
   "displayName": "Fintech Software Engineer",
-  "version": "1.0.1",
-  "description": "A disciplined software-engineering workflow for building any fintech software: spec, design, test-first build, debug, independent review and ship, grounded in the IEEE SWEBOK v4 guide, with fintech rules for money, ledgers, payments, lending, investments, digital assets and compliance loaded when the work needs them.",
+  "version": "1.1.0",
+  "description": "A disciplined software-engineering workflow for building any fintech software: ideate, wireframe, spec, architect, design, tickets, test-first build, debug, independent review and ship, grounded in the IEEE SWEBOK v4 guide, with fintech and data-layer rules for money, ledgers, payments, lending, investments, digital assets and compliance loaded when the work needs them.",
   "author": {
     "name": "Asjad",
     "email": "asjad@outlook.com"
@@ -21,6 +21,12 @@
     "lending",
     "compliance",
     "dotnet",
-    "python"
+    "python",
+    "ideation",
+    "wireframes",
+    "architecture",
+    "tickets",
+    "multica",
+    "data-engineering"
   ]
 }

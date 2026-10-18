@@ -43,8 +43,11 @@ the safeguard for each; a missing safeguard is a launch blocker.
 - Prefer deep modules: much behaviour behind a small interface.
 - Quality attributes: money correctness, idempotency, auditability,
   resumability, security, performance, testability.
-- Rules: `${CLAUDE_PLUGIN_ROOT}/references/fintech-rules.md` and the domain
-  packs in `${CLAUDE_PLUGIN_ROOT}/references/domains/`.
+- Rules: `${CLAUDE_PLUGIN_ROOT}/references/fintech-rules.md`, the domain
+  packs in `${CLAUDE_PLUGIN_ROOT}/references/domains/`, and
+  `references/data-layer.md` when the change touches stores, events or
+  pipelines.
+- No code or stack yet: run `architect` first.
 
 ## ADR template
 ```markdown

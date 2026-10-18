@@ -9,7 +9,8 @@ argument-hint: "[feature]"
 Output: `docs/specs/<feature-slug>.md`. The format is plain Markdown so it can
 move to an issue tracker later unchanged.
 
-1. **Read.** Skim the code in the area, `GLOSSARY.md` and `docs/adr/`.
+1. **Read.** Skim the code in the area, `GLOSSARY.md`, `docs/adr/`, and any
+   idea brief in `docs/ideas/` or wireframes in `docs/wireframes/`.
    Done when you can name the modules and money flows involved.
 2. **Ask.** In one message, ask the three to six questions whose answers
    change the design, each with your recommended answer:
@@ -58,7 +59,8 @@ regulatory reporting · volume.
 
 ## Writing good criteria
 - Describe behaviour seen at a public interface (API response, screen,
-  file, ledger entry, event), not internals.
+  file, ledger entry, event), not internals. Cite wireframe screen ids
+  where they exist: `AC4 (S2, W3)`.
 - Money criteria name the currency, precision and rounding mode.
 - Example values come from an independent source (a statement, a worked
   example, a regulation), so tests built on them can disagree with the code.

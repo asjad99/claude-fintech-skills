@@ -1,7 +1,7 @@
 ---
 name: build
 description: Add, implement or change code test-first - before writing the first source file, write one failing test, then the least code to pass it, slice by slice, then run the full checks. Use for any request to add, build, implement, write or modify code in fintech or money-handling software.
-argument-hint: "[spec path or acceptance criterion]"
+argument-hint: "[ticket, spec path or acceptance criterion]"
 ---
 
 # Build
@@ -11,7 +11,8 @@ Principles: `principles` skill (P1-P12). Rules:
 work touches. Language notes: `references/dotnet.md` or `references/python.md`.
 
 ## Before the loop
-1. **Criteria.** Take the acceptance criteria from the spec in `docs/specs/`,
+1. **Criteria.** Take the acceptance criteria from the ticket in
+   `docs/tickets/` (with its domains and rules) or the spec in `docs/specs/`,
    or write the one-line criterion for a small fix.
 2. **Commands.** Find the repo's build, test, lint, format and type-check
    commands in its files (build and project files, lock files, Makefile, CI

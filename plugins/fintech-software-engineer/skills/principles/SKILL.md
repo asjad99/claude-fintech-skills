@@ -38,6 +38,8 @@ the domain pack for each domain the work touches:
 | Identity, KYC/AML, sanctions, permissions, privacy, approvals | `references/domains/compliance.md` |
 
 Paths are under `${CLAUDE_PLUGIN_ROOT}/`; read only the packs the work touches.
+For schemas, migrations, events, pipelines or analytics, also read
+`references/data-layer.md`.
 
 ## Languages
 The repo's build files, lock files and CI decide versions, frameworks and
@@ -46,8 +48,12 @@ commands. C#: also read `references/dotnet.md`; Python: `references/python.md`.
 ## Which skill
 | Situation | Skill |
 |---|---|
+| An idea to pressure-test before building | `ideate` |
+| Screens or a flow to sketch or show users | `wireframe` |
 | New feature, or a vague or large request | `spec` |
+| Empty repo or new service: no stack chosen yet | `architect` |
 | Change crosses modules, the data model, a public API, a money flow or an external provider | `design` |
+| Approved spec to split into tickets or push to a tracker | `tickets` |
 | Writing or changing code | `build` |
 | Something broken, wrong, flaky, slow, or a production incident | `debug` |
 | Before calling work done | `review` |

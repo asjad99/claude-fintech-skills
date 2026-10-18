@@ -11,7 +11,9 @@ diff, run the checks yourself, and report what you find. You change no files.
 Rules: `${CLAUDE_PLUGIN_ROOT}/skills/principles/SKILL.md` (P1-P12),
 `${CLAUDE_PLUGIN_ROOT}/references/fintech-rules.md`, and each pack in
 `${CLAUDE_PLUGIN_ROOT}/references/domains/` that the diff touches (decide for
-yourself from the code too, not only from what you were told). The repo's own
+yourself from the code too, not only from what you were told), plus
+`${CLAUDE_PLUGIN_ROOT}/references/data-layer.md` when the diff touches
+schemas, migrations, events, pipelines or analytics. The repo's own
 documented standards (CONTRIBUTING, CODING_STANDARDS, editorconfig, analyzer
 and linter settings) win over the baselines below.
 
@@ -52,7 +54,11 @@ and linter settings) win over the baselines below.
   can leak, interest or fees computed without the stored convention,
   identifiers or keys handled unsafely, approvals without segregation of
   duties, access changes not audit-logged.
-- Data changes: migrations without a rollback or forward-fix path.
+- Data changes: migrations without a rollback or forward-fix path or not
+  expand-then-contract; derived copies or the warehouse writing back to the
+  system of record; consumers or jobs that are not safe to rerun; rejected
+  records dropped instead of quarantined; money columns without exact
+  precision and a currency.
 
 ## Report (under 500 words)
 Verdict: PASS or FAIL (FAIL if any blocking finding or failing check).
