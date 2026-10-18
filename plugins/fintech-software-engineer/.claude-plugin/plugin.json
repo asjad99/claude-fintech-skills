@@ -1,12 +1,13 @@
 {
   "name": "fintech-software-engineer",
   "displayName": "Fintech Software Engineer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A disciplined software-engineering workflow for building any fintech software: spec, design, test-first build, debug, independent review and ship, grounded in the IEEE SWEBOK v4 guide, with fintech rules for money, ledgers, payments, lending, investments, digital assets and compliance loaded when the work needs them.",
   "author": {
     "name": "Asjad",
     "email": "asjad@outlook.com"
   },
+  "homepage": "https://github.com/asjad99/claude-fintech-skills",
   "repository": "https://github.com/asjad99/claude-fintech-skills",
   "license": "MIT",
   "keywords": [
@@ -21,5 +22,7 @@
     "compliance",
     "dotnet",
     "python"
-  ]
+  ],
+  "documentationUrl": "https://github.com/asjad99/claude-fintech-skills#readme",
+  "supportUrl": "https://github.com/asjad99/claude-fintech-skills/issues"
 }
