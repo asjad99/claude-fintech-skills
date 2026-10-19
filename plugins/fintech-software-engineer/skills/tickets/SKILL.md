@@ -6,29 +6,37 @@ argument-hint: "[spec path]"
 
 # Tickets
 
-Output: `docs/tickets/<feature-slug>.md`, plain Markdown, then the tracker.
+Output: `docs/tickets/<feature-slug>.md` in plain Markdown, and then the
+tracker.
 
-1. **Read.** The approved spec, its ADRs and `GLOSSARY.md`. Stop and run
-   `spec` if the spec has no numbered acceptance criteria.
-2. **Slice.** Cut vertical slices: each delivers behaviour someone can see
-   at a public interface, through every layer it needs. Rules:
-   - every acceptance criterion lands in exactly one ticket
-   - a ticket is small enough for one `build` session (roughly a day)
-   - the first ticket is the thinnest end-to-end path; edge and failure
-     criteria follow as their own tickets
-   - schema changes, provider integrations and kill switches get their own
-     tickets when they are risky or must ship first
-   Done when every criterion is covered once and nothing outside the spec
-   appears.
-3. **Order.** List dependencies and sort so each ticket depends only on
-   earlier ones. Mark the ones that can run in parallel.
-4. **Flag risk.** Mark `money-risk: high` on any ticket that moves money
-   irreversibly, changes balances or the ledger, or touches a provider or
-   approvals. Those need `design` (failure modes, premortem) before `build`
-   and a human reviewer before merge.
-5. **Write** each ticket from the template, then show the list.
-   Done when the user approves it.
-6. **Push** (optional, on request). See below.
+1. **Read.** Read the approved spec, its ADRs and `GLOSSARY.md`. If the spec
+   does not have numbered acceptance criteria, stop and run `spec`.
+2. **Slice.** Divide the spec into vertical slices. Each slice gives
+   behaviour that a person can see at a public interface. Each slice goes
+   through all the layers that are necessary. Obey these rules:
+   - Put each acceptance criterion in exactly one ticket.
+   - Make each ticket small enough for one `build` session (approximately
+     one day).
+   - Make the first ticket the smallest end-to-end path. Put the edge
+     criteria and failure criteria in separate tickets after it.
+   - If a schema change, provider integration or kill switch has risk, put
+     it in a separate ticket. Do the same if it must ship first.
+
+   This step is complete when each criterion is in one ticket only, and no
+   ticket contains work that is not in the spec.
+3. **Order.** Make a list of the dependencies. Sort the tickets so that each
+   ticket depends only on earlier tickets. Mark the tickets that can run in
+   parallel.
+4. **Flag risk.** Mark a ticket `money-risk: high` if it does one of these:
+   - It moves money irreversibly.
+   - It changes balances or the ledger.
+   - It calls or changes a provider integration, or changes approvals.
+
+   These tickets must have `design` (failure modes, premortem) before
+   `build`. They must also have a human reviewer before merge.
+5. **Write** each ticket from the template. Then show the list.
+   This step is complete when the user approves the list.
+6. **Push** (optional, only if the user asks). Refer to the section below.
 
 ## Template
 ```markdown
@@ -45,33 +53,36 @@ idempotency key, balanced entries, day-count convention).
 checks pass, and `review` reports no blocking findings.
 ```
 
-Each ticket is self-contained so an agent that has not seen the
-conversation can pick it up: it names the spec path, criteria and rules
-rather than relying on context.
+Each ticket must be complete in itself, so that an agent that did not see the
+conversation can do the work. Each ticket gives the spec path, the criteria
+and the rules. It does not depend on the context of the conversation.
 
-## Pushing to Multica
-Multica is a ticket board where people and coding agents take on issues.
-Agents drive it through the `multica` CLI.
-1. Check `multica --version` and the active workspace. Run
-   `multica issue create --help` to confirm flags and allowed status and
-   priority values in the installed version.
-2. Optionally create a parent issue for the feature, then one issue per
-   ticket with `--parent`:
+## Push to Multica
+Multica is a ticket board. People and coding agents take issues from it.
+Agents use Multica through the `multica` CLI.
+1. Run `multica --version` and find the active workspace. Run
+   `multica issue create --help`. Use its output to make sure of the flags.
+   Also make sure of the status and priority values that the version accepts.
+2. If you want, create a parent issue for the feature. Then create one issue
+   for each ticket with `--parent`:
    `multica issue create --title "T1 <title>" --description-file <file>
    --parent <id> --output json`. The description is the ticket body above.
-3. Multica has no dependency flag: keep `Depends on: T…` in each body,
-   and add labels such as `money-risk-high` with `multica issue label add`.
-4. Leave issues unassigned. Assigning an issue to an agent starts work, so
-   assign only when the user asks, and never assign `money-risk: high`
-   tickets to an agent without the user's go-ahead.
-5. Write each returned issue id back into `docs/tickets/<feature>.md`.
+3. Multica does not have a dependency flag. Because of this, keep
+   `Depends on: T…` in each body. Add labels such as `money-risk-high` with
+   `multica issue label add`.
+4. Do not assign the issues. If you assign an issue to an agent, the agent
+   starts the work. Assign an issue only when the user asks. Do not assign a
+   `money-risk: high` ticket to an agent without the approval of the user.
+5. Write each issue ID that Multica returns into
+   `docs/tickets/<feature>.md`.
 
-For another tracker, use its connector if one is available; otherwise
-export JSON or CSV with title, body, parent, labels and dependencies.
+For a different tracker, use its connector if one is available. If no
+connector is available, export JSON or CSV with the title, body, parent,
+labels and dependencies.
 
-## After
-Run `build` with a ticket id or path; it takes the criteria, domains and
-rules from the ticket.
+## Next step
+Run `build` with a ticket ID or path. The `build` skill gets the criteria,
+domains and rules from the ticket.
 
 Sources: SWEBOK Requirements 7.3 (tracing) and Engineering Management
 (work breakdown, scheduling, risk); slices follow Bill Wake's INVEST
