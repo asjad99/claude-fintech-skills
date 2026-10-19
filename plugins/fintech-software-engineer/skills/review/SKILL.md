@@ -6,24 +6,32 @@ argument-hint: "[base ref, default main]"
 
 # Review
 
-The builder doesn't grade its own work: the `code-reviewer` agent does, from
-the spec and the diff alone.
+The agent that builds a change does not examine its own work. The
+`code-reviewer` agent examines it, with only the spec and the diff.
 
-1. **Pin the diff.** Base = the argument, else `main`. Confirm
-   `git diff <base>...HEAD` plus uncommitted changes is not empty. Find the
-   spec in `docs/specs/` or the one-line criterion, and note which domains
-   the diff touches.
-2. **Green baseline.** Run the full tests, linter and type checks.
-   Done when all pass, or the failures are listed for the reviewer.
-3. **Delegate.** Launch the `code-reviewer` agent with only: the base ref, the
-   spec path or criterion, the domains touched, and the check commands. Leave
-   out your reasoning and how you built it.
-4. **Act on findings.** Fix each blocking finding through the `build` loop
-   (a failing test first when it is a behaviour bug). Fix or note each
-   should-fix. When anything blocking changed, review again.
-   Done when the reviewer reports no blocking findings, or the user has
-   accepted each remaining one.
-5. **Report.** Findings, what was fixed, what was accepted and why.
+1. **Identify the diff.** Use the argument as the base reference. If there is
+   no argument, use `main`. Make sure that `git diff <base>...HEAD` and the
+   uncommitted changes are not empty. Find the spec in `docs/specs/` or the
+   one-line criterion. Identify the domains that the diff has an effect on.
+2. **Green baseline.** Run the full tests, the linter and the type checks.
+   This step is complete when all checks pass, or when you have a list of the
+   failures for the reviewer.
+3. **Delegate.** Start the `code-reviewer` agent. Give it only these items:
+   - the base reference
+   - the spec path or the criterion
+   - the domains of the diff
+   - the check commands
+
+   Do not tell the agent why or how you built the change.
+4. **Correct the findings.** Fix each blocking finding through the `build`
+   loop. If the finding is a behaviour bug, write a test that fails first.
+   Fix each should-fix finding, or record it. If you changed code because of
+   a blocking finding, do the review again.
+   This step is complete when one of these conditions is true:
+   - The reviewer reports no blocking findings.
+   - The user accepts each blocking finding that is not fixed.
+5. **Report.** Give the findings and the fixes. For each finding that the
+   user accepted, give the reason.
 
 Sources: SWEBOK Quality and Security; Fintech Engineering Handbook (Controls
 and Access: maker-checker for code); two-axis review after mattpocock/skills

@@ -6,48 +6,61 @@ argument-hint: "[spec path]"
 
 # Design
 
-1. **Comprehend.** Read the modules the spec touches and their callers; list
-   each with one line on its job. Read the domain packs the spec names.
-   Done when every acceptance criterion maps to a module.
-2. **Options.** Describe two or three options, typically the smallest change,
-   the cleanest design, and a middle path. For each: what changes, effort,
-   risk, and cost to reverse. Recommend one and say why.
-   Done when the user has chosen.
-3. **Failure modes.** For each external call or money movement in the chosen
-   option, write one line each for: timeout, duplicate, out-of-order,
-   partial success, provider down. Say what the system does.
-   Done when every line has an answer or an open question.
-4. **Threats.** For new endpoints, data stores or money flows, a short STRIDE
-   pass: spoofing, tampering, repudiation, information disclosure, denial of
-   service, elevation of privilege. Note data classification and where the
-   data must live.
-5. **Record.** When the choice is costly to reverse, write
+1. **Read the code.** Read the modules that the spec has an effect on, and
+   their callers. For each module, write one line about its function. Read
+   the domain packs that the spec identifies.
+   This step is complete when each acceptance criterion has a related module.
+2. **Options.** Write two or three options. Usually, these are the smallest
+   change, the cleanest design and an option between the two. For each
+   option, write what changes, the effort, the risk and the cost to reverse.
+   Recommend one option and give the reason.
+   This step is complete when the user selects an option.
+3. **Failure modes.** Examine each external call or money movement in the
+   selected option. For each one, write one line for each of these failures:
+   - timeout
+   - duplicate
+   - out-of-order
+   - partial success
+   - provider down
+
+   On each line, write what the system does.
+   This step is complete when each line has an answer or an open question.
+4. **Threats.** For new endpoints, data stores or money flows, do a short
+   STRIDE analysis. Examine spoofing, tampering, repudiation, information
+   disclosure, denial of service and elevation of privilege. Record the data
+   classification and where the data must be.
+5. **Record.** If the decision has a high cost to reverse, write
    `docs/adr/NNNN-<title>.md` from the template below. Add new domain terms to
    `GLOSSARY.md` as `Term: one-line definition`. Create these files only when
-   there is something to write.
-6. **Seams.** List the public interfaces where tests will run, each with one
-   line on what it catches and what it misses. Prefer existing seams.
-   Done when the user agrees.
-7. **Model branching behaviour.** Anything with three or more states or
-   several parties (a payment lifecycle, a loan, an approval workflow) gets a
-   Mermaid state or sequence diagram in the ADR or spec.
+   you have content for them.
+6. **Seams.** Make a list of the public interfaces where the tests will run.
+   For each interface, write one line about the errors that it finds and the
+   errors that it does not find. If possible, use the seams that exist now.
+   This step is complete when the user agrees.
+7. **Model complex behaviour.** Some items have three or more states or two or
+   more parties. Examples are a payment lifecycle, a loan and an approval workflow.
+   For these items, put a Mermaid state diagram or sequence diagram in the
+   ADR or the spec.
 
-Before launching a new money flow or provider, also run a premortem: it is
-three months later and this lost money. List the three likeliest causes and
-the safeguard for each; a missing safeguard is a launch blocker.
+Before you launch a new money flow or provider, also do a premortem. For
+this analysis, it is three months after the launch, and the flow or provider lost
+money.
+Make a list of the three most probable causes and the safeguard for each
+cause. If a cause has no safeguard, the launch must not occur.
 
 ## Checks for every design
-- Design principles: abstraction, separation of concerns, modularity,
-  encapsulation, interface separate from implementation, low coupling, high
-  cohesion, uniformity, completeness against the spec, verifiability.
-- Prefer deep modules: much behaviour behind a small interface.
+- Design principles:
+  - abstraction, separation of concerns, modularity, encapsulation
+  - interface separate from implementation, low coupling, high cohesion
+  - uniformity, completeness against the spec, verifiability
+- If possible, use deep modules: much behaviour behind a small interface.
 - Quality attributes: money correctness, idempotency, auditability,
   resumability, security, performance, testability.
-- Rules: `${CLAUDE_PLUGIN_ROOT}/references/fintech-rules.md`, the domain
-  packs in `${CLAUDE_PLUGIN_ROOT}/references/domains/`, and
-  `references/data-layer.md` when the change touches stores, events or
-  pipelines.
-- No code or stack yet: run `architect` first.
+- Rules: `${CLAUDE_PLUGIN_ROOT}/references/fintech-rules.md` and the domain
+  packs in `${CLAUDE_PLUGIN_ROOT}/references/domains/`. If the change has an
+  effect on stores, events or pipelines, also use
+  `references/data-layer.md`.
+- If there is no code or stack yet, run `architect` first.
 
 ## ADR template
 ```markdown
@@ -65,8 +78,8 @@ Each with effort, risk and cost to reverse.
 ## Consequences
 What gets easier, what gets harder, what to watch.
 ```
-ADRs are append-only: a changed decision gets a new ADR that supersedes the
-old one.
+ADRs are append-only. If a decision changes, write a new ADR that supersedes
+the old ADR.
 
 Sources: SWEBOK Architecture 2.4, Design 1.4 and 4.6, Models and Methods,
 Security, Economics; premortem from the Fintech Engineering Handbook

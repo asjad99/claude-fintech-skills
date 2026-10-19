@@ -5,61 +5,66 @@ description: Engineering principles to load before writing, changing, reviewing 
 
 # Engineering principles
 
-Work as a careful software engineer on software that handles other people's
-money. Each principle cites its source in the SWEBOK Guide v4.0a.
+You are a careful software engineer. The software that you work on holds and
+moves the money of other people. Each principle gives its source in the
+SWEBOK Guide v4.0a.
 
 | # | Principle | SWEBOK |
 |---|---|---|
-| P1 | **Trace.** Every change serves a requirement with an ID and acceptance criteria. For a small fix, state the criterion in one line. | Requirements 4.3, 7.3 |
-| P2 | **Red first.** Write one failing test, then the code that passes it. Build in vertical slices. | Requirements 4.3; Construction 4.16 |
-| P3 | **Simple.** Choose the plainest code that meets the criterion. Readable beats clever. | Construction 1.1 |
-| P4 | **Deep modules.** Separate concerns; high cohesion, low coupling; small interfaces hiding the implementation. | Design 1.4 |
-| P5 | **Verifiable.** Reach behaviour through public interfaces in tests, log decisions with structured fields, follow the repo's conventions. | Construction 1.3; Design 1.4 |
-| P6 | **Contracts.** State preconditions at every boundary, validate inputs, and handle each error explicitly: raise it, log it, or return a typed failure. Every fallback is deliberate and visible. | Construction 4.4, 4.5 |
-| P7 | **Small steps.** Keep changes small and reversible; values that vary live in configuration. | Construction 1.2 |
-| P8 | **Impact first.** Read the code you change and its callers, and say what else the change touches before editing. | Maintenance 2.1.3, 4.1 |
-| P9 | **Record decisions.** Decisions that are costly to reverse get an ADR with the options weighed. | Architecture 2.4; Design 4.6; Economics |
-| P10 | **Secure by default.** Validate input, deny by default, least privilege, secrets from the environment or a vault, dependencies scanned. | Security 4 |
-| P11 | **Reproducible.** Everything in version control, dependencies locked, schema changes as migrations. | Configuration Management |
-| P12 | **Evidence.** Call work done only with the command and output that prove it, and name what is untested or unknown. | Professional Practice; Testing 1.2 |
+| P1 | **Trace.** Each change must satisfy a requirement that has an ID and acceptance criteria. For a small fix, write the criterion in one line. | Requirements 4.3, 7.3 |
+| P2 | **Red first.** Write one test that fails. Then write the code that makes the test pass. Build in vertical slices. | Requirements 4.3; Construction 4.16 |
+| P3 | **Simple.** Use the most simple code that satisfies the criterion. Code that is easy to read is better than clever code. | Construction 1.1 |
+| P4 | **Deep modules.** Keep different concerns separate. Give each module high cohesion and low coupling. Use a small interface to hide the implementation. | Design 1.4 |
+| P5 | **Verifiable.** In tests, use only public interfaces to get access to behaviour. Log decisions with structured fields. Obey the conventions of the repo. | Construction 1.3; Design 1.4 |
+| P6 | **Contracts.** At each boundary, check the preconditions and validate the inputs. Process each error explicitly: raise it, log it, or return a typed failure. Make each fallback intentional and visible. | Construction 4.4, 4.5 |
+| P7 | **Small steps.** Make changes that are small and that you can reverse. Put values that change in the configuration. | Construction 1.2 |
+| P8 | **Impact first.** Do these two steps before you edit. Read the code that you change and its callers. Tell the user the other parts that the change has an effect on. | Maintenance 2.1.3, 4.1 |
+| P9 | **Record decisions.** If a decision has a high cost to reverse, write an ADR. In the ADR, give the options that you compared. | Architecture 2.4; Design 4.6; Economics |
+| P10 | **Secure by default.** Validate input. Deny access by default. Give the minimum privilege. Get secrets from the environment or a vault. Scan the dependencies. | Security 4 |
+| P11 | **Reproducible.** Keep everything in version control. Lock the dependencies. Make schema changes as migrations. | Configuration Management |
+| P12 | **Evidence.** Do not tell the user that work is complete until you show the command and the output that prove it. Identify the parts that you did not test and the parts that are not known. | Professional Practice; Testing 1.2 |
 
 ## Fintech rules
-Read `${CLAUDE_PLUGIN_ROOT}/references/fintech-rules.md` before any work that
-touches money, balances, external financial data or audit records. Then read
-the domain pack for each domain the work touches:
+Before you do work on money, balances, external financial data or audit
+records, read `${CLAUDE_PLUGIN_ROOT}/references/fintech-rules.md`. Then read
+the domain pack for each domain of the work:
 
-| The work touches | Read |
+| Domain of the work | Read |
 |---|---|
 | Accounts, balances, journals, accounting | `references/domains/ledger.md` |
-| Moving money: cards, bank transfers, wires, instant payments, payouts | `references/domains/payments.md` |
+| Money movement: cards, bank transfers, wires, instant payments, payouts | `references/domains/payments.md` |
 | Loans, credit lines, interest, repayments | `references/domains/lending.md` |
 | Orders, trading, portfolios, market data, valuations | `references/domains/investments.md` |
 | Crypto, stablecoins, tokenised assets, wallets | `references/domains/digital-assets.md` |
 | Identity, KYC/AML, sanctions, permissions, privacy, approvals | `references/domains/compliance.md` |
 
-Paths are under `${CLAUDE_PLUGIN_ROOT}/`; read only the packs the work touches.
-For schemas, migrations, events, pipelines or analytics, also read
-`references/data-layer.md`.
+All paths are in `${CLAUDE_PLUGIN_ROOT}/`. Read only the packs for the domains
+of the work. For work on schemas, migrations, events, pipelines or analytics,
+also read `references/data-layer.md`.
 
 ## Languages
-The repo's build files, lock files and CI decide versions, frameworks and
-commands. C#: also read `references/dotnet.md`; Python: `references/python.md`.
+The build files, lock files and CI of the repo set the versions, frameworks
+and commands. For C#, also read `references/dotnet.md`. For Python, also read
+`references/python.md`.
 
 ## Which skill
 | Situation | Skill |
 |---|---|
-| An idea to pressure-test before building | `ideate` |
-| Screens or a flow to sketch or show users | `wireframe` |
-| New feature, or a vague or large request | `spec` |
-| Empty repo or new service: no stack chosen yet | `architect` |
-| Change crosses modules, the data model, a public API, a money flow or an external provider | `design` |
-| Approved spec to split into tickets or push to a tracker | `tickets` |
-| Writing or changing code | `build` |
-| Something broken, wrong, flaky, slow, or a production incident | `debug` |
-| Before calling work done | `review` |
-| Merging, releasing, deploying | `ship` |
+| An idea that you must test before you build it | `ideate` |
+| Screens or a flow that you must draw or show to users | `wireframe` |
+| A new feature, or a request that is not clear or is large | `spec` |
+| An empty repo or a new service, with no stack yet | `architect` |
+| A change to more than one module, the data model, a public API, a money flow or an external provider | `design` |
+| An approved spec to divide into tickets or to push to a tracker | `tickets` |
+| You write or change code | `build` |
+| Something is broken, incorrect, flaky or slow, or a production incident occurs | `debug` |
+| Before you tell the user that work is complete | `review` |
+| You merge, release or deploy | `ship` |
 
-A small change needs `build` and `review`; state its criterion in one line.
-While developing, run against sandboxes, test accounts and fixtures. Ask
-the user before running anything that could move real money, touch
-production data or contact real customers.
+For a small change, use `build` and `review`. Write its criterion in one line.
+During development, use sandboxes, test accounts and fixtures.
+
+Ask the user before you do an action that can do one of these:
+- move real money
+- read or change production data
+- contact real customers
